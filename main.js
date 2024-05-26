@@ -43,3 +43,19 @@ function deleteBookmark(index){
     localStorage.setItem('data' , JSON.stringify( books))
     display()
 }
+document.getElementById('siteUrl').addEventListener('input', function () {
+    const urlInput = this;
+    const urlFeedback = document.getElementById('urlFeedback');
+    const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
+
+    if (urlInput.value === '') {
+      urlInput.classList.remove('is-invalid');
+      urlFeedback.style.display = 'none';
+    } else if (!urlPattern.test(urlInput.value)) {
+      urlInput.classList.add('is-invalid');
+      urlFeedback.style.display = 'block';
+    } else {
+      urlInput.classList.remove('is-invalid');
+      urlFeedback.style.display = 'none';
+    }
+  });

@@ -27,14 +27,18 @@
           />
         </div>
         <div class="form-group">
-          <label for="siteUrl">🔗 Site URL</label>
-          <input
-            type="text"
-            class="form-control"
-            id="siteUrl"
-            placeholder="Website URL"
-          />
-        </div>
+            <label for="siteUrl">🔗 Site URL</label>
+            <input
+              type="url"
+              class="form-control"
+              id="siteUrl"
+              placeholder="Website URL"
+              required
+            />
+            <div class="invalid-feedback" id="urlFeedback">
+              Please enter a valid URL.
+            </div>
+            <br>
         <button type="submit" class="btn btn-submit btn-block">Submit</button>
       </form>
       <table class="table mt-4">
