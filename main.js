@@ -20,6 +20,13 @@ form.addEventListener('submit', function(event) {
         siteName : siteName.value, 
         siteUrl : siteUrl.value, 
     }
+      var bookExists = books.some(book => book.siteUrl === bookData.siteUrl &&  book.siteName === bookData.siteName);
+
+      if (bookExists) {
+          alert('This book already exists.');
+          return;
+      }
+
     books.push(bookData);
     localStorage.setItem('data' , JSON.stringify( books))
     display(books);
@@ -39,11 +46,18 @@ function display(data){
         cell1.innerHTML = index + 1;
         cell2.innerHTML = bookmark.siteName;
         cell3.innerHTML = `<a href="${bookmark.siteUrl}" target="_blank" class="btn btn-success">Visit</a>  `;
-        cell4.innerHTML = `<button class="btn btn-danger" onclick="deleteBookmark(${index})">Delete</button> <button class="btn btn-success" type = 'button' onclick="editBookmark(${index})">Edit</button>`;
+        cell4.innerHTML = `<button class="btn btn-danger" type = 'button' onclick="deleteBookmark(${index})">Delete</button> <button class="btn btn-success" type = 'button' onclick="editBookmark(${index})">Edit</button>`;
     });
 }
 function deleteBookmark(index){
-  
+var searchedData = JSON.parse(localStorage.getItem('searchedData')) ?? [] ;
+if(searchedData[index]){
+  var index = books.findIndex(function(book) {
+    return book.siteName ===  searchedData[index]['siteName'];
+  });
+  searchedData.splice(index, 1);
+  localStorage.setItem('searchedData' , JSON.stringify( searchedData))
+}
     books.splice(index, 1);
     localStorage.setItem('data' , JSON.stringify( books))
     display(books)
@@ -87,6 +101,7 @@ document.getElementById('siteUrl').addEventListener('input', function () {
   });
   function search(word){
     var searchedData = [];
+
     for (let i = 0; i < books.length; i++) {
 
       if(books[i]['siteName'].trim().toLowerCase().includes(word.toLowerCase())   ){
@@ -94,7 +109,7 @@ document.getElementById('siteUrl').addEventListener('input', function () {
       }
      
     }
-   
+  localStorage.setItem('searchedData' , JSON.stringify( searchedData))
     display( searchedData);
   }
   searchInput.addEventListener('input', function(event) {
